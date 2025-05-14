@@ -8,14 +8,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve frontend files (no folders, files are in root directory)
 app.use(express.static(__dirname));
 
-// MySQL Connection
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'YourPassword', // Replace with your actual MySQL password
+  password: 'YourPassword',
   database: 'user_authentication'
 });
 
@@ -24,7 +22,6 @@ db.connect((err) => {
   console.log('Connected to MySQL database!');
 });
 
-// Signup Route
 app.post('/signup', (req, res) => {
   const { username, password } = req.body;
   const sql = 'INSERT INTO users (username, password) VALUES (?, ?)';
@@ -39,7 +36,6 @@ app.post('/signup', (req, res) => {
   });
 });
 
-// Login Route
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
@@ -54,12 +50,10 @@ app.post('/login', (req, res) => {
   });
 });
 
-// Route for serving the HTML
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start server
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });
